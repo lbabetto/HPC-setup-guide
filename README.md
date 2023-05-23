@@ -226,7 +226,7 @@ ConstrainRAMSpace=yes
 15. **Slave nodes**: `sudo systemctl start slurmd`
 > **Note**
 > : if the service cannot start, there might be issues with the ownership of PID files. Try the following:
-> 1. Create the `/etctmpfiles.d/slurm.conf` file with the following content: `d /run/slurm 0770 root slurm -`
+> 1. Create the `/etc/tmpfiles.d/slurm.conf` file with the following content: `d /run/slurm 0770 root slurm -`
 > 2. Edit the `slurm.conf` file and update the new PID file locations (`/run/slurm/...`)
 > 3. Edit the `/lib/systemd/system/slurm*.service` files with the same info
 > 4. Reboot all systems
