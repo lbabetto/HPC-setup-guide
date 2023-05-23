@@ -261,15 +261,7 @@ The Modules package is a tool that simplifies shell initialization and lets user
 4. Run `make` and `make install`
 5. Enable the initialization of modules at startup via a symbolic link: `sudo ln -s PREFIX/init/profile.sh /etc/profile.d/modules.sh`
 6. Create a `modulefile` for each program you need to configure. Example for Orca 5.0.4 with OpenMPI-4.1.4:
-<details>
-  <summary>task_prolog</summary>
-  
-  ```
-  #!/bin/bash
-  scratch_dir=/scratch/${SLURM_JOB_USER}/${SLURM_JOB_ID}
-  echo "export TMPDIR=${scratch_dir}"
-  ```
-</details>
+
 <details>
   <summary>/shared/modules-5.3.0/modulefiles/orca/orca-5.0.4</summary>
   
