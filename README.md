@@ -168,7 +168,7 @@ ff02::2 ip6-allrouters
 2. **Master node**: `sudo apt install nfs-server`
 3. **Slave nodes**: `sudo apt install nfs-client`
 4. **All nodes**: create the folders you want to sync (e.g., `/shared`)
-5. **Master node**: edit the `/etc/exports` in the master node adding the following line (add more lines if you are syncing more folders): `/shared *(rw,sync)`
+5. **Master node**: edit the `/etc/exports` file adding the following line (add more lines if you are syncing more folders): `/shared *(rw,sync)`
 6. **Master node**: restart the NFS service with `sudo service nfs-kernel-server restart`
 7. **Slave nodes**: edit the `/etc/fstab` file and add the following line (adjust for your specific configuration): `snorlax-master:/shared    /shared    nfs`
 8. **Slave nodes**: remount all partitions with `sudo mount -a`
@@ -207,22 +207,30 @@ ff02::2 ip6-allrouters
 5. **All nodes**: copy the generated `slurm.conf` file to `/etc/slurm-llnl`.
 > **Note**
 > : the `slurm.conf` file must be exactly the same in all nodes!
-6. **Master node**: `sudo touch /var/slurmctld.pid; sudo chown slurm:slurm /var/slurmctld.pid`
-7. **Slave nodes**: `sudo touch /var/slurmd.pid; sudo chown slurm:slurm /var/slurmd.pid`
-8. **Master node**: add the line `User=slurm` to `/lib/systemd/system/slurmctld.service`
-9. **Slave nodes**: add the line `User=root` to `/lib/systemd/system/slurmcd.service`
-10. **All nodes**: add relevant users to the `slurm` group: `sacctmgr create user name=<USERNAME> account=<GROUP>`
-11. **Master node**: `sudo systemctl enable slurmctld`
-12. **Master node**: `sudo systemctl start slurmctld`
-13. **Slave nodes**: `sudo systemctl enable slurmd`
-14. **Slave nodes**: `sudo systemctl start slurmd`
+6. **All nodes**: create the `/etc/slurm-llnl/cgroup.conf` file with the following content:
+```
+CgroupAutomount=yes
+CgroupReleaseAgentDir="/etc/slurm/cgroup"
+ConstrainCores=yes
+ConstrainDevices=yes
+ConstrainRAMSpace=yes
+```
+7. **Master node**: `sudo touch /var/slurmctld.pid; sudo chown slurm:slurm /var/slurmctld.pid`
+8. **Slave nodes**: `sudo touch /var/slurmd.pid; sudo chown slurm:slurm /var/slurmd.pid`
+9. **Master node**: add the line `User=slurm` to `/lib/systemd/system/slurmctld.service`
+10. **Slave nodes**: add the line `User=root` to `/lib/systemd/system/slurmcd.service`
+11. **All nodes**: add relevant users to the `slurm` group: `sacctmgr create user name=<USERNAME> account=<GROUP>`
+12. **Master node**: `sudo systemctl enable slurmctld`
+13. **Master node**: `sudo systemctl start slurmctld`
+14. **Slave nodes**: `sudo systemctl enable slurmd`
+15. **Slave nodes**: `sudo systemctl start slurmd`
 > **Note**
 > : if the service cannot start, there might be issues with the ownership of PID files. Try the following:
 > 1. Create the `/etctmpfiles.d/slurm.conf` file with the following content: `d /run/slurm 0770 root slurm -`
 > 2. Edit the `slurm.conf` file and update the new PID file locations (`/run/slurm/...`)
 > 3. Edit the `/lib/systemd/system/slurm*.service` files with the same info
 > 4. Reboot all systems
-15. Confiure `prolog`, `taskprolog` and `epilog` scripts in `/etc/slurm-llnl` if you need something to be done at the start/end of each job (edit the `slurm.conf` file indicating the path to the scripts if you use them). For example, the following files create temporary directories on each node at the start of a job, export a `$TMPDIR` environment variable accessible within the slurm script, and deletes the temporary folder at the end of a job (even if it crashed):
+16. Confiure `prolog`, `taskprolog` and `epilog` scripts in `/etc/slurm-llnl` if you need something to be done at the start/end of each job (edit the `slurm.conf` file indicating the path to the scripts if you use them). For example, the following files create temporary directories on each node at the start of a job, export a `$TMPDIR` environment variable accessible within the slurm script, and deletes the temporary folder at the end of a job (even if it crashed):
 <details>
   <summary>prolog</summary>
   
