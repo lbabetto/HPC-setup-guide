@@ -192,9 +192,8 @@ ff02::2 ip6-allrouters
 1. **All nodes**: `sudo apt-get install -y slurm-wlm`
 2. **All nodes**: make sure the following folders and files exist. If not, create them:
   - `/etc/slurm-llnl`
-  - `/var/log/slurm-llnl`
   - `/var/spool/slurm`
-  - `/var/lov/slurm_jobacct.log`
+  - `/var/log/slurm_jobacct.log`
 3. Apply `sudo chown -R slurm:slurm <FOLDER>` to each folder and file in the previous point
 4. Generate a `slurm.conf` file using the [online configuration tool](https://cluster.hpcc.ucr.edu/~jhayes/slurm/19.05.0/configurator.html), according to your cluster configuration. A few things to keep in mind:
   - Set your master node's hostname in `SlurmctldHost`
