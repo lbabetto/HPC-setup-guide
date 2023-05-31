@@ -297,3 +297,18 @@ The Modules package is a tool that simplifies shell initialization and lets user
 </details>
 
 8. Modules can now be enabled via the following syntax: `module load orca/orca-5.0.4`
+
+# 8. Install Cockpit for performance metrics
+[Cockpit](https://cockpit-project.org/) allows sysadmins to monitor the performance of a HPC cluster in real time, and optionally to carry out maintenance from a web interface. Setup is very easy and should not require any particular configuration steps. Simply install the software on all nodes and enable the service:
+
+`sudo apt install cockpit cockpit-pcp`
+`sudo systemctl start cockpit`
+
+The Cockpit web interface can be found at the IP address of the corresponding machine, on port 9090:
+
+`https://172.16.27.30:9090`
+
+Login credentials are the same as for the machine.
+
+> **Note**
+> : you will receive a safety warning when visiting the website, as we did not install any certificates for that "web page". You can safely ignore the warning and proceed with the login.
