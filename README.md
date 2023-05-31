@@ -302,6 +302,7 @@ The Modules package is a tool that simplifies shell initialization and lets user
 [Cockpit](https://cockpit-project.org/) allows sysadmins to monitor the performance of a HPC cluster in real time, and optionally to carry out maintenance from a web interface. Setup is very easy and should not require any particular configuration steps. Simply install the software on all nodes and enable the service:
 
 `sudo apt install cockpit cockpit-pcp`
+
 `sudo systemctl start cockpit`
 
 The Cockpit web interface can be found at the IP address of the corresponding machine, on port 9090:
