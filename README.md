@@ -229,7 +229,7 @@ ConstrainRAMSpace=yes
 > 2. Edit the `slurm.conf` file and update the new PID file locations (`/run/slurm/...`)
 > 3. Edit the `/lib/systemd/system/slurm*.service` files with the same info
 > 4. Reboot all systems
-16. Confiure `prolog`, `taskprolog` and `epilog` scripts in `/etc/slurm-llnl` if you need something to be done at the start/end of each job (edit the `slurm.conf` file indicating the path to the scripts if you use them). For example, the following files create temporary directories on each node at the start of a job, export a `$TMPDIR` environment variable accessible within the slurm script, and deletes the temporary folder at the end of a job (even if it crashed):
+16. Configure `prolog`, `taskprolog` and `epilog` scripts in `/etc/slurm-llnl` if you need something to be done at the start/end of each job (edit the `slurm.conf` file indicating the path to the scripts if you use them). For example, the following files create temporary directories on each node at the start of a job, export a `$TMPDIR` environment variable accessible within the slurm script, and deletes the temporary folder at the end of a job (even if it crashed):
 <details>
   <summary>prolog</summary>
   
